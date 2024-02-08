@@ -11,8 +11,13 @@ export const routes = [
     },
     {
         path: '/categories',
-        name: 'categories',
-        component: () => import('../views/Categories.vue')
+        name: 'categories.list',
+        component: () => import('../views/categories/list.vue')
+    },
+    {
+        path: '/categories/create',
+        name: 'categories.create',
+        component: () => import('../views/categories/create.vue')
     },
     {
         path: '/cast-members',

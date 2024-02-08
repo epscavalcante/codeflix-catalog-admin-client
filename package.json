@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "tiny-emitter": "^2.1.0",
+    "axios": "^1.6.7",
     "vue": "^3.2.47",
     "vue-router": "4"
   },
