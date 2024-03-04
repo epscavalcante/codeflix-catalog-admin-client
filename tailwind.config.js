@@ -11,9 +11,6 @@ export default {
       center: true
     }
   },
-  plugins: [require("daisyui")],
-  daisyui: {
-    themes: ['black']
-  }
+  plugins: [],
 }
 

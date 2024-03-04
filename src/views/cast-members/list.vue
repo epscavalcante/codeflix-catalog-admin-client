@@ -1,10 +1,10 @@
 <template>
   <header class="flex justify-between">
-    <h1 class="text-3xl font-semibold mb-10">Categories</h1>
+    <h1 class="text-3xl font-semibold mb-10">CastMembers</h1>
 
     <RouterLink
       class="btn btn-sm btn-outline btn-neutral"
-      :to="{ name: 'categories.create' }"
+      :to="{ name: 'castMembers.create' }"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -31,73 +31,67 @@
         <tr>
           <th scope="col" class="px-6 py-3">ID</th>
           <th scope="col" class="px-6 py-3">Name</th>
-          <th scope="col" class="px-6 py-3">Description</th>
+          <th scope="col" class="px-6 py-3">Type</th>
           <th scope="col" class="px-6 py-3">Created At</th>
-          <th scope="col" class="px-6 py-3">Status</th>
           <th scope="col" class="px-6 py-3">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-500 hover:text-gray-800"
-          v-for="(category, index) of data.categories"
+          v-for="(castMember, index) of data.items"
           :key="index"
         >
           <th
             scope="row"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
           >
-            {{ category.id }}
+            {{ castMember.id }}
           </th>
-          <td class="px-6 py-4">{{ category.name }}</td>
-          <td class="px-6 py-4">{{ category.description }}</td>
-          <td class="px-6 py-4">{{ category.createdAt }}</td>
-          <td class="px-6 py-4">{{ category.isActive }}</td>
+          <td class="px-6 py-4">{{ castMember.name }}</td>
+          <td class="px-6 py-4">{{ castMember.type }}</td>
+          <td class="px-6 py-4">{{ castMember.createdAt }}</td>
           <td class="px-6 py-4">
             <RouterLink
               :to="{
-                name: 'categories.edit',
-                params: { id: category.id },
+                name: 'castMembers.edit',
+                params: { id: castMember.id },
               }"
             >
               Edit
             </RouterLink>
 
-            <button @click="removeItem(category.id as string)">Del</button>
+            <button @click="removeItem(castMember.id as string)">Del</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <!-- <div class="join">
-      <button class="join-item btn">«</button>
-      <button class="join-item btn">Page {{ data.meta.currentPage }}</button>
-      <button class="join-item btn">»</button>
-    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, reactive } from "vue";
-import Category from "../../domain/Category.entity";
-import CategoryGateway from "../../infra/gateway/category/CategoryGateway";
-const data: { categories: Category[]; meta: {} } = reactive({
-  categories: [],
+import { inject, onMounted, reactive, } from "vue";
+import CastMember from "../../domain/CastMember.entity";
+import CastMemberGateway from "../../infra/gateway/cast-member/CastMemberGateway";
+
+const data: { items: CastMember[]; meta: {} } = reactive({
+  items: [],
   meta: {},
 });
-let categoryGateway: CategoryGateway;
+let castMemberGateway: CastMemberGateway;
 onMounted(async () => {
-  categoryGateway = inject("categoryGateway") as CategoryGateway;
+  castMemberGateway = inject("castMemberGateway") as CastMemberGateway;
   await getItems();
 });
 
 async function getItems() {
-  const categoriesResponse = await categoryGateway.list();
-  data.categories = categoriesResponse.data;
-  data.meta = categoriesResponse.meta;
+  const castMemberResponse = await castMemberGateway.list();
+  data.items = castMemberResponse.data;
+  data.meta = castMemberResponse.meta;
 }
 
 async function removeItem(id: string) {
-  await categoryGateway.destroy(id);
+  await castMemberGateway.destroy(id);
   await getItems();
 }
 </script>

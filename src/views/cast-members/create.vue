@@ -1,10 +1,10 @@
 <template>
   <section class="container">
     <header class="flex justify-between">
-      <h3 class="mb-10 font-black text-2xl">Adicionar categoria</h3>
+      <h3 class="mb-10 font-black text-2xl">Create cast member</h3>
       <router-link
         class="btn btn-sm btn-outline btn-neutral"
-        :to="{ name: 'categories.list' }"
+        :to="{ name: 'castMembers.list' }"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -30,33 +30,20 @@
         </label>
         <input
           type="text"
-          v-model="category.name"
+          v-model="castMember.name"
           placeholder="Type here"
           class="input input-bordered w-full"
         />
       </div>
 
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Description</span>
-        </label>
-        <textarea
-          v-model="category.description"
-          placeholder="Type here"
-          class="textarea w-full"
-        >
-        </textarea>
-      </div>
 
       <div class="form-control w-36">
         <label class="cursor-pointer label">
-          <span class="label-text">Active?</span>
-          <input
-            type="checkbox"
-            v-model="category.isActive"
-            class="toggle toggle-primary"
-            checked
-          />
+          <select name="type" id="type" class="w-full" v-model="castMember.type">
+            <option value="null">Select</option>
+            <option value="1">Director</option>
+            <option value="2">Actor</option>
+          </select>
         </label>
       </div>
     </form>
@@ -67,43 +54,40 @@
     >
       Save
     </button>
-
-    <pre>{{ category }}</pre>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, inject, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import CategoryGateway from "../../infra/gateway/category/CategoryGateway";
+import CastMemberGateway from "../../infra/gateway/cast-member/CastMemberGateway";
+import Category from "../../domain/Category.entity";
 
-let categoryGateway: CategoryGateway;
+let castMemberGateway: CastMemberGateway;
 onMounted(() => {
-  categoryGateway = inject("categoryGateway") as CategoryGateway;
+  castMemberGateway = inject("castMemberGateway") as CastMemberGateway;
 });
 
-const category = ref({
+const castMember = ref({
   name: "",
-  description: "",
-  isActive: false,
+  type: null,
 });
 
 const formIsValid = computed(
   () =>
-    category.value.name.length > 1 &&
-    category.value.isActive !== undefined
+    castMember.value.name.length > 1 &&
+    [1, 2].includes(castMember.value.type as any)
 );
 
 const router = useRouter();
 async function submit() {
   try {
-    const res = await categoryGateway.create({
-      name: category.value.name,
-      description: category.value.description,
-      isActive: category.value.isActive,
+    const res = await castMemberGateway.create({
+      name: castMember.value.name,
+      type: Number(castMember.value.type),
     });
     
-    router.push({ name: "categories.list" });
+    router.push({ name: "castMembers.list" });
   } catch (error) {
     console.log('deu erro', error);
   }

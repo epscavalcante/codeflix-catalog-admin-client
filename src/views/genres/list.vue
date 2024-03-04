@@ -1,10 +1,10 @@
 <template>
   <header class="flex justify-between">
-    <h1 class="text-3xl font-semibold mb-10">Categories</h1>
+    <h1 class="text-3xl font-semibold mb-10">Genres</h1>
 
     <RouterLink
       class="btn btn-sm btn-outline btn-neutral"
-      :to="{ name: 'categories.create' }"
+      :to="{ name: 'genres.create' }"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -31,73 +31,69 @@
         <tr>
           <th scope="col" class="px-6 py-3">ID</th>
           <th scope="col" class="px-6 py-3">Name</th>
-          <th scope="col" class="px-6 py-3">Description</th>
+          <th scope="col" class="px-6 py-3">Categories</th>
           <th scope="col" class="px-6 py-3">Created At</th>
-          <th scope="col" class="px-6 py-3">Status</th>
           <th scope="col" class="px-6 py-3">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-500 hover:text-gray-800"
-          v-for="(category, index) of data.categories"
+          v-for="(genre, index) of data.items"
           :key="index"
         >
           <th
             scope="row"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
           >
-            {{ category.id }}
+            {{ genre.id }}
           </th>
-          <td class="px-6 py-4">{{ category.name }}</td>
-          <td class="px-6 py-4">{{ category.description }}</td>
-          <td class="px-6 py-4">{{ category.createdAt }}</td>
-          <td class="px-6 py-4">{{ category.isActive }}</td>
+          <td class="px-6 py-4">{{ genre.name }}</td>
+          <td class="px-6 py-4">
+            {{ genre.categories.map((item) => item.name).join(", ") }}
+          </td>
+          <td class="px-6 py-4">{{ genre.createdAt }}</td>
           <td class="px-6 py-4">
             <RouterLink
               :to="{
-                name: 'categories.edit',
-                params: { id: category.id },
+                name: 'genres.edit',
+                params: { id: genre.id },
               }"
             >
               Edit
             </RouterLink>
 
-            <button @click="removeItem(category.id as string)">Del</button>
+            <button @click="removeItem(genre.id as string)">Del</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <!-- <div class="join">
-      <button class="join-item btn">«</button>
-      <button class="join-item btn">Page {{ data.meta.currentPage }}</button>
-      <button class="join-item btn">»</button>
-    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { inject, onMounted, reactive } from "vue";
-import Category from "../../domain/Category.entity";
-import CategoryGateway from "../../infra/gateway/category/CategoryGateway";
-const data: { categories: Category[]; meta: {} } = reactive({
-  categories: [],
+import Genre from "../../domain/Genre.entity";
+import GenreGateway from "../../infra/gateway/genre/GenreGateway";
+
+const data: { items: Genre[]; meta: {} } = reactive({
+  items: [],
   meta: {},
 });
-let categoryGateway: CategoryGateway;
+let genreGateway: GenreGateway;
 onMounted(async () => {
-  categoryGateway = inject("categoryGateway") as CategoryGateway;
+  genreGateway = inject("genreGateway") as GenreGateway;
   await getItems();
 });
 
 async function getItems() {
-  const categoriesResponse = await categoryGateway.list();
-  data.categories = categoriesResponse.data;
-  data.meta = categoriesResponse.meta;
+  const genreResponse = await genreGateway.list();
+  data.items = genreResponse.data;
+  data.meta = genreResponse.meta;
 }
 
 async function removeItem(id: string) {
-  await categoryGateway.destroy(id);
+  await genreGateway.destroy(id);
   await getItems();
 }
 </script>
