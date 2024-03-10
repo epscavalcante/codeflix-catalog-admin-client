@@ -7,10 +7,10 @@ export default {
   ],
   theme: {
     extend: {},
+    container: {
+      center: true
+    }
   },
-  plugins: [require("daisyui")],
-  daisyui: {
-    themes: ['black']
-  }
+  plugins: [],
 }
 

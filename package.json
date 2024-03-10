@@ -10,14 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "tiny-emitter": "^2.1.0",
+    "axios": "^1.6.7",
     "vue": "^3.2.47",
     "vue-router": "4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.1.0",
     "autoprefixer": "^10.4.14",
-    "daisyui": "^4.4.2",
     "eslint": "^8.38.0",
     "eslint-plugin-vue": "^9.11.0",
     "postcss": "^8.4.21",
