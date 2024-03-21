@@ -2,6 +2,12 @@ import Category from "../../domain/Category.entity";
 import HttpClient from "./HttpClient";
 
 export default class MemoryHttpAdapter implements HttpClient {
+  patch(url: string, body: any): Promise<any> {
+    throw new Error("Method not implemented.");
+  }
+  delete(url: string): Promise<any> {
+    throw new Error("Method not implemented.");
+  }
   categories: Category[] = [
     {
       id: "a1",
