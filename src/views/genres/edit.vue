@@ -1,7 +1,9 @@
 <template>
   <section class="container">
     <header class="flex justify-between">
-      <h3 class="mb-10 font-black text-2xl">Edit genre {{ route.params.id }}</h3>
+      <h3 class="mb-10 font-black text-2xl">
+        Edit genre {{ route.params.id }}
+      </h3>
       <router-link
         class="btn btn-sm btn-outline btn-neutral"
         :to="{ name: 'genres.list' }"
@@ -24,11 +26,10 @@
     </header>
 
     <form action="#" class="flex flex-col gap-y-4 mb-8">
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Name</span>
-        </label>
+      <div class="flex flex-col">
+        <label for="name">Name </label>
         <input
+          id="name"
           type="text"
           v-model="genre.name"
           placeholder="Type here"
@@ -41,7 +42,7 @@
           :for="category.id"
           v-for="(category, index) of data.items"
           :key="index"
-          class="mr-2"
+          class="flex items-center gap-2"
         >
           <input
             :id="category.id"
@@ -56,8 +57,6 @@
           {{ category.name }}
         </label>
       </section>
-
-      <pre>{{ genre }}</pre>
     </form>
 
     <button @click="submit" class="btn btn-outline btn-neutral">Save</button>

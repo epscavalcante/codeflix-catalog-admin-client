@@ -24,36 +24,32 @@
     </header>
 
     <form action="#" class="flex flex-col gap-y-4 mb-8">
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Name</span>
-        </label>
+      <div class="flex flex-col">
+        <label for="name">Name</label>
         <input
+          id="name"
           type="text"
           v-model="castMember.name"
           placeholder="Type here"
-          class="input input-bordered w-full"
+          class="form-input"
         />
       </div>
 
-
-      <div class="form-control w-36">
-        <label class="cursor-pointer label">
-          <select name="type" id="type" class="w-full" v-model="castMember.type">
-            <option value="null">Select</option>
-            <option value="1">Director</option>
-            <option value="2">Actor</option>
-          </select>
-        </label>
+      <div class="flex flex-col">
+        <label for="type">Type</label>
+        <select
+          name="type"
+          id="type"
+          class="form-select"
+          v-model="castMember.type"
+        >
+          <option value="null">Select</option>
+          <option value="1">Director</option>
+          <option value="2">Actor</option>
+        </select>
       </div>
     </form>
-
-    <button
-      @click="submit"
-      class="btn btn-outline btn-neutral"
-    >
-      Save
-    </button>
+    <button @click="submit" class="btn btn-outline btn-neutral">Save</button>
   </section>
 </template>
 
@@ -86,10 +82,10 @@ async function submit() {
       name: castMember.value.name,
       type: Number(castMember.value.type),
     });
-    
+
     router.push({ name: "castMembers.list" });
   } catch (error) {
-    console.log('deu erro', error);
+    console.log("deu erro", error);
   }
 }
 </script>

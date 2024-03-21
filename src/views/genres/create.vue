@@ -24,27 +24,25 @@
     </header>
 
     <form action="#" class="flex flex-col gap-y-4 mb-8">
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Name</span>
-        </label>
+      <div class="flex flex-col">
+        <label for="name">Name </label>
         <input
           type="text"
           v-model="genre.name"
           placeholder="Type here"
-          class="input input-bordered w-full"
+          class="form-input"
         />
       </div>
 
       <section>
         <label
-          :for="category.id"
+          :for="`cat-${category.id}`"
           v-for="(category, index) of data.items"
           :key="index"
-          class="mr-2"
+          class="flex items-center gap-2"
         >
           <input
-            :id="category.id"
+            :id="`cat-${category.id}`"
             name="categories[]"
             type="checkbox"
             :value="category.id"
@@ -62,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, reactive, ref } from "vue";
+import { inject, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import GenreGateway from "../../infra/gateway/genre/GenreGateway";
 import CategoryGateway from "../../infra/gateway/category/CategoryGateway";

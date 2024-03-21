@@ -24,51 +24,39 @@
     </header>
 
     <form action="#" class="flex flex-col gap-y-4 mb-8">
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Name</span>
-        </label>
+      <div class="flex flex-col">
+        <label for="name">Name </label>
         <input
           type="text"
           v-model="category.name"
           placeholder="Type here"
-          class="input input-bordered w-full"
+          class="form-input rounded"
         />
       </div>
 
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Description</span>
-        </label>
+      <div class="flex flex-col">
+        <label for="description">Description </label>
         <textarea
+          id="description"
           v-model="category.description"
           placeholder="Type here"
-          class="textarea w-full"
+          class="form-textarea rounded"
         >
         </textarea>
       </div>
 
-      <div class="form-control w-36">
-        <label class="cursor-pointer label">
-          <span class="label-text">Active?</span>
-          <input
-            type="checkbox"
-            v-model="category.isActive"
-            class="toggle toggle-primary"
-            checked
-          />
-        </label>
-      </div>
+      <label class="flex items-center gap-2">
+        <input
+          type="checkbox"
+          v-model="category.isActive"
+          class="form-checkbox rounded"
+        />
+
+        Active?
+      </label>
     </form>
 
-    <button
-      @click="submit"
-      class="btn btn-outline btn-neutral"
-    >
-      Save
-    </button>
-
-    <pre>{{ category }}</pre>
+    <button @click="submit" class="btn btn-outline btn-neutral">Save</button>
   </section>
 </template>
 
@@ -89,9 +77,7 @@ const category = ref({
 });
 
 const formIsValid = computed(
-  () =>
-    category.value.name.length > 1 &&
-    category.value.isActive !== undefined
+  () => category.value.name.length > 1 && category.value.isActive !== undefined
 );
 
 const router = useRouter();
@@ -102,10 +88,10 @@ async function submit() {
       description: category.value.description,
       isActive: category.value.isActive,
     });
-    
+
     router.push({ name: "categories.list" });
   } catch (error) {
-    console.log('deu erro', error);
+    console.log("deu erro", error);
   }
 }
 </script>

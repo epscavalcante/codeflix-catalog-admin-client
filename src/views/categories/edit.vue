@@ -26,46 +26,42 @@
     </header>
 
     <form action="#" class="flex flex-col gap-y-4 mb-8">
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Name</span>
-        </label>
+      <div class="flex flex-col">
+        <label for="name">Name </label>
         <input
+          id="name"
           type="text"
           v-model="category.name"
           placeholder="Type here"
-          class="input input-bordered w-full"
+          class="form-input"
         />
       </div>
 
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Description</span>
-        </label>
+      <div class="flex flex-col">
+        <label for="description">Description </label>
         <textarea
+          id="description"
           v-model="category.description"
           placeholder="Type here"
-          class="textarea w-full"
+          class="form-textarea"
         >
         </textarea>
       </div>
 
-      <div class="form-control w-36">
-        <label class="cursor-pointer label">
-          <span class="label-text">Active?</span>
-          <input
-            type="checkbox"
-            v-model="category.isActive"
-            class="toggle toggle-primary"
-            checked
-          />
-        </label>
-      </div>
+      <label for="isActive" class="flex items-center gap-2">
+        <input
+          id="isActive"
+          type="checkbox"
+          v-model="category.isActive"
+          class="toggle toggle-primary"
+          checked
+        />
+
+        Active?
+      </label>
     </form>
 
     <button @click="submit" class="btn btn-outline btn-neutral">Save</button>
-
-    <pre>{{ category }}</pre>
   </section>
 </template>
 

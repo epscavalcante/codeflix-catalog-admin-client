@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <header class="flex justify-between">
-      <h3 class="mb-10 font-black text-2xl">Create genre</h3>
+      <h3 class="mb-10 font-black text-2xl">Create vídeo</h3>
       <router-link
         class="btn btn-sm btn-outline btn-neutral"
         :to="{ name: 'genres.list' }"
@@ -24,28 +24,26 @@
     </header>
 
     <form action="#" class="flex flex-col gap-y-4 mb-8">
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Title</span>
-        </label>
+      <div class="flex flex-col">
+        <label for="title">Title</label>
         <input
+          id="title"
           type="text"
           v-model="video.title"
           placeholder="Type here"
-          class="input input-bordered w-full"
+          class="form-input"
         />
       </div>
 
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Description</span>
+      <div class="flex flex-col">
+        <label for="description">Description
         </label>
         <textarea
+          id="description"
           v-model="video.description"
           name="description"
-          id="description"
-          rows="10"
-          class="w-full"
+          rows="3"
+          class="form-textarea"
         ></textarea>
       </div>
 
@@ -54,7 +52,7 @@
           :for="category.id"
           v-for="(category, index) of categories.items"
           :key="index"
-          class="mr-2"
+          class="flex items-center gap-x-2"
         >
           <input
             :id="category.id"
@@ -74,7 +72,7 @@
           :for="genre.id"
           v-for="(genre, index) of genres.items"
           :key="index"
-          class="mr-2"
+          class="flex items-center gap-x-2"
         >
           <input
             :id="genre.id"
@@ -94,7 +92,7 @@
           :for="castMember.id"
           v-for="(castMember, index) of castMembers.items"
           :key="index"
-          class="mr-2"
+          class="flex items-center gap-x-2"
         >
           <input
             :id="castMember.id"
@@ -109,36 +107,36 @@
         </label>
       </section>
 
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Year launched</span>
+      <div class="flex flex-col">
+        <label for="yearLaunched">Year launched
         </label>
         <input
+          id="yearLaunched"
           type="number"
           v-model="video.yearLaunched"
           placeholder="Type here"
-          class="input input-bordered w-full"
+          class="form-input"
         />
       </div>
 
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Duration</span>
+      <div class="flex flex-col">
+        <label for="duration">Duration
         </label>
         <input
+          id="duration"
           type="number"
           v-model="video.duration"
           placeholder="Type here"
-          class="input input-bordered w-full"
+          class="form-input"
         />
       </div>
 
-      <section>
+      <section class="flex flex-col">
         <label
           :for="rating.value"
           v-for="(rating, index) of ratings"
           :key="index"
-          class="mr-2"
+          class="flex items-center gap-x-2"
         >
           <input
             :id="rating.label"
@@ -148,6 +146,7 @@
             v-model="video.rating"
             true-value="no"
             false-value="no"
+            class="form-radio"
           />
           {{ rating.label }}
         </label>
@@ -162,13 +161,12 @@
             v-model="video.isOpened"
             true-value="true"
             false-value="false"
+            class="form-checkbox"
           />
           Featured
         </label>
       </section>
     </form>
-
-    <pre>{{ video }}</pre>
 
     <button @click="submit" class="btn btn-outline btn-neutral">Save</button>
   </section>

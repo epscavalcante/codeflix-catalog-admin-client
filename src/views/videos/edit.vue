@@ -36,16 +36,14 @@
         />
       </div>
 
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Description</span>
-        </label>
+      <div class="flex flex-col">
+        <label form="description">Description </label>
         <textarea
+          id="description"
           v-model="video.description"
           name="description"
-          id="description"
-          rows="10"
-          class="w-full"
+          rows="3"
+          class="form-textarea"
         ></textarea>
       </div>
 
@@ -54,7 +52,7 @@
           :for="category.id"
           v-for="(category, index) of categories.items"
           :key="index"
-          class="mr-2"
+          class="flex items-center gap-x-2"
         >
           <input
             :id="category.id"
@@ -64,6 +62,7 @@
             v-model="video.categoriesId"
             true-value="no"
             false-value="no"
+            class="form-checkbox"
           />
           {{ category.name }}
         </label>
@@ -74,7 +73,7 @@
           :for="genre.id"
           v-for="(genre, index) of genres.items"
           :key="index"
-          class="mr-2"
+          class="flex items-center gap-x-2"
         >
           <input
             :id="genre.id"
@@ -84,6 +83,7 @@
             v-model="video.genresId"
             true-value="no"
             false-value="no"
+            class="form-checkbox"
           />
           {{ genre.name }}
         </label>
@@ -94,7 +94,7 @@
           :for="castMember.id"
           v-for="(castMember, index) of castMembers.items"
           :key="index"
-          class="mr-2"
+          class="flex items-center gap-x-2"
         >
           <input
             :id="castMember.id"
@@ -104,32 +104,31 @@
             v-model="video.castMembersId"
             true-value="no"
             false-value="no"
+            class="form-checkbox"
           />
           {{ castMember.name }}
         </label>
       </section>
 
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Year launched</span>
-        </label>
+      <div class="flex flex-col">
+        <label for="yearLaunched">Year launched </label>
         <input
+          id="yearLaunched"
           type="number"
           v-model="video.yearLaunched"
           placeholder="Type here"
-          class="input input-bordered w-full"
+          class="form-input"
         />
       </div>
 
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Duration</span>
-        </label>
+      <div class="flex flex-col">
+        <label for="duration">Duration</label>
         <input
+          id="duration"
           type="number"
           v-model="video.duration"
           placeholder="Type here"
-          class="input input-bordered w-full"
+          class="form-input"
         />
       </div>
 
@@ -138,7 +137,7 @@
           :for="rating.value"
           v-for="(rating, index) of ratings"
           :key="index"
-          class="mr-2"
+          class="flex items-center gap-x-2"
         >
           <input
             :id="rating.label"
@@ -154,7 +153,7 @@
       </section>
 
       <section>
-        <label for="isOpened" class="mr-2">
+        <label for="isOpened" class="flex items-center gap-x-2">
           <input
             id="isOpened"
             name="isOpened"
@@ -162,13 +161,12 @@
             v-model="video.isOpened"
             true-value="true"
             false-value="false"
+            class="form-checkbox"
           />
           Featured
         </label>
       </section>
     </form>
-
-    <pre>{{ video }}</pre>
 
     <button @click="submit" class="btn btn-outline btn-neutral">Save</button>
   </section>
@@ -226,9 +224,9 @@ async function getVideo() {
   const videoFound = await videoGateway.find(videoId);
   video.value = {
     ...videoFound,
-    genresId: videoFound.genres?.map(g => g.id) as Array<string>,
-    categoriesId: videoFound.categories?.map(c => c.id) as Array<string>,
-    castMembersId: videoFound.castMembers?.map(cm => cm.id) as Array<string>,
+    genresId: videoFound.genres?.map((g) => g.id) as Array<string>,
+    categoriesId: videoFound.categories?.map((c) => c.id) as Array<string>,
+    castMembersId: videoFound.castMembers?.map((cm) => cm.id) as Array<string>,
   };
 }
 
@@ -252,20 +250,17 @@ async function getCastMembers() {
 
 async function submit() {
   try {
-    const res = await videoGateway.update(
-      videoId,
-      {
-        title: video.value.title,
-        description: video.value.description,
-        yearLaunched: Number(video.value.yearLaunched),
-        duration: Number(video.value.duration),
-        rating: video.value.rating,
-        isOpened: Boolean(video.value.isOpened),
-        genresId: video.value.genresId,
-        categoriesId: video.value.categoriesId,
-        castMembersId: video.value.castMembersId,
-      }
-    );
+    const res = await videoGateway.update(videoId, {
+      title: video.value.title,
+      description: video.value.description,
+      yearLaunched: Number(video.value.yearLaunched),
+      duration: Number(video.value.duration),
+      rating: video.value.rating,
+      isOpened: Boolean(video.value.isOpened),
+      genresId: video.value.genresId,
+      categoriesId: video.value.categoriesId,
+      castMembersId: video.value.castMembersId,
+    });
     console.log(res);
     router.push({ name: "videos.list" });
   } catch (error) {
