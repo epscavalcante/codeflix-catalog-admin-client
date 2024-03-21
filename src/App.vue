@@ -78,10 +78,16 @@
 
   <main class="py-6">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 min-h-full">
+      AppName: {{ appName }}
       <RouterView />
     </div>
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue';
+
+const appName = computed(() => import.meta.env.VITE_APP_NAME)
+</script>
+
 <style scoped></style>
