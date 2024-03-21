@@ -11,6 +11,9 @@ export default class Video {
   duration: number | null;
   isOpened: boolean;
   isPublished?: boolean;
+  banner?: string | null;
+  thumbnail?: string | null;
+  thumbnailHalf?: string | null;
   createdAt?: Date;
   genres?: Array<Genre>;
   genresId?: Array<string>;
@@ -24,6 +27,9 @@ export default class Video {
     this.description = props.description || "";
     this.yearLaunched = props.yearLaunched;
     this.rating = props.rating || "";
+    this.banner = props.banner || null;
+    this.thumbnail = props.thumbnail || null;
+    this.thumbnailHalf = props.thumbnail || null;
     this.duration = props.duration || null;
     this.isOpened = props.isOpened || false;
     this.isPublished = props?.isPublished;
@@ -47,6 +53,9 @@ type VideoProps = {
   isPublished?: boolean;
   createdAt?: Date;
   id?: string;
+  banner: string | null;
+  thumbnail: string | null;
+  thumbnailHalf: string | null;
   genres?: Array<Genre>;
   genresId?: Array<string>;
   categories?: Array<Category>;

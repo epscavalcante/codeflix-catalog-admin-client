@@ -22,6 +22,9 @@ export default class VideoGatewayHttp implements VideoGateway {
             isOpened: responseItem.isOpened,
             isPublished: responseItem.isPublished,
             createdAt: responseItem.createdAt,
+            banner: responseItem.banner,
+            thumbnail: responseItem.thumbnail,
+            thumbnailHalf: responseItem.thumbnailHalf,
             id: responseItem.id,
             genresId: responseItem.genresId,
             genres: responseItem.genres,
@@ -51,6 +54,9 @@ export default class VideoGatewayHttp implements VideoGateway {
       isPublished: response.isPublished,
       createdAt: response.createdAt,
       id: response.id,
+      banner: response.banner,
+      thumbnail: response.thumbnail,
+      thumbnailHalf: response.thumbnailHalf,
       genresId: response.genresId,
       genres: response.genres,
       categories: response.categories,
@@ -68,5 +74,39 @@ export default class VideoGatewayHttp implements VideoGateway {
 
   async destroy(id: string): Promise<void> {
     return await this.httpClient.delete(`/videos/${id}`);
+  }
+
+  async upload(id: string, file: FormData): Promise<void> {
+    const response = await this.httpClient.post(
+      `/videos/${id}/uploads`, 
+      file, 
+      {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }
+    );
+
+    console.log(response);
+
+    // return new Video({
+    //   title: response.title,
+    //   description: response.description,
+    //   yearLaunched: response.yearLaunched,
+    //   rating: response.rating,
+    //   duration: response.duration,
+    //   isOpened: response.isOpened,
+    //   isPublished: response.isPublished,
+    //   createdAt: response.createdAt,
+    //   id: response.id,
+    //   banner: response.banner,
+    //   thumbnail: response.thumbnail,
+    //   genresId: response.genresId,
+    //   genres: response.genres,
+    //   categories: response.categories,
+    //   categoriesId: response.categoriesId,
+    //   castMembersId: response.castMembersId,
+    //   castMembers: response.castMembers,
+    // });
   }
 }

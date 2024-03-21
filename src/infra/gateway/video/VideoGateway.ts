@@ -7,6 +7,7 @@ export default interface VideoGateway {
   find(id: string): Promise<Video>;
   update(id: string, body: BodyUpdate): Promise<Video>;
   destroy(id: string): Promise<void>;
+  upload(id: string, file: FormData): Promise<void>;
 }
 
 export type BodyCreate = {

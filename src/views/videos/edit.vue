@@ -23,150 +23,180 @@
       </router-link>
     </header>
 
-    <form action="#" class="flex flex-col gap-y-4 mb-8">
-      <div class="form-control w-full">
-        <label class="label">
-          <span class="label-text">Title</span>
-        </label>
-        <input
-          type="text"
-          v-model="video.title"
-          placeholder="Type here"
-          class="input input-bordered w-full"
-        />
-      </div>
+    <section class="grid grid-cols-3 gap-4">
+      <form action="#" class="flex flex-col gap-y-4 mb-8 col-span-2">
+        <div class="form-control w-full">
+          <label class="label">
+            <span class="label-text">Title</span>
+          </label>
+          <input
+            type="text"
+            v-model="video.title"
+            placeholder="Type here"
+            class="input input-bordered w-full"
+          />
+        </div>
 
-      <div class="flex flex-col">
-        <label form="description">Description </label>
-        <textarea
-          id="description"
-          v-model="video.description"
-          name="description"
-          rows="3"
-          class="form-textarea"
-        ></textarea>
-      </div>
+        <div class="flex flex-col">
+          <label form="description">Description </label>
+          <textarea
+            id="description"
+            v-model="video.description"
+            name="description"
+            rows="3"
+            class="form-textarea"
+          ></textarea>
+        </div>
 
-      <section>
-        <label
-          :for="category.id"
-          v-for="(category, index) of categories.items"
+        <section>
+          <label
+            :for="category.id"
+            v-for="(category, index) of categories.items"
+            :key="index"
+            class="flex items-center gap-x-2"
+          >
+            <input
+              :id="category.id"
+              name="categories[]"
+              type="checkbox"
+              :value="category.id"
+              v-model="video.categoriesId"
+              true-value="no"
+              false-value="no"
+              class="form-checkbox"
+            />
+            {{ category.name }}
+          </label>
+        </section>
+
+        <section>
+          <label
+            :for="genre.id"
+            v-for="(genre, index) of genres.items"
+            :key="index"
+            class="flex items-center gap-x-2"
+          >
+            <input
+              :id="genre.id"
+              name="genres[]"
+              type="checkbox"
+              :value="genre.id"
+              v-model="video.genresId"
+              true-value="no"
+              false-value="no"
+              class="form-checkbox"
+            />
+            {{ genre.name }}
+          </label>
+        </section>
+
+        <section>
+          <label
+            :for="castMember.id"
+            v-for="(castMember, index) of castMembers.items"
+            :key="index"
+            class="flex items-center gap-x-2"
+          >
+            <input
+              :id="castMember.id"
+              name="castMembers[]"
+              type="checkbox"
+              :value="castMember.id"
+              v-model="video.castMembersId"
+              true-value="no"
+              false-value="no"
+              class="form-checkbox"
+            />
+            {{ castMember.name }}
+          </label>
+        </section>
+
+        <div class="flex flex-col">
+          <label for="yearLaunched">Year launched </label>
+          <input
+            id="yearLaunched"
+            type="number"
+            v-model="video.yearLaunched"
+            placeholder="Type here"
+            class="form-input"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label for="duration">Duration</label>
+          <input
+            id="duration"
+            type="number"
+            v-model="video.duration"
+            placeholder="Type here"
+            class="form-input"
+          />
+        </div>
+
+        <section>
+          <label
+            :for="rating.value"
+            v-for="(rating, index) of ratings"
+            :key="index"
+            class="flex items-center gap-x-2"
+          >
+            <input
+              :id="rating.label"
+              name="rating"
+              type="radio"
+              :value="rating.value"
+              v-model="video.rating"
+              true-value="no"
+              false-value="no"
+            />
+            {{ rating.label }}
+          </label>
+        </section>
+
+        <section>
+          <label for="isOpened" class="flex items-center gap-x-2">
+            <input
+              id="isOpened"
+              name="isOpened"
+              type="checkbox"
+              v-model="video.isOpened"
+              true-value="true"
+              false-value="false"
+              class="form-checkbox"
+            />
+            Featured
+          </label>
+        </section>
+      </form>
+
+      <section class="flex flex-col gap-5">
+        <div
+          class="w-full border border-gray-200 rounded-lg"
+          v-for="(media, index) of medias"
           :key="index"
-          class="flex items-center gap-x-2"
         >
-          <input
-            :id="category.id"
-            name="categories[]"
-            type="checkbox"
-            :value="category.id"
-            v-model="video.categoriesId"
-            true-value="no"
-            false-value="no"
-            class="form-checkbox"
-          />
-          {{ category.name }}
-        </label>
+          <div class="p-5">
+            <h5 class="text-xl font-semibold tracking-tight text-gray-900 mb-5">
+              {{ media.label }}
+            </h5>
+
+            <div class="">
+              <img v-if="media.url" :src="media.url" alt="Banner" />
+
+              <input
+                type="file"
+                :name="media.field"
+                :id="media.field"
+                class="form-input my-3"
+                @change="(event)  =>uploadFile(media.field, event)"
+                capture
+                accept="image/*"
+              />
+            </div>
+          </div>
+        </div>
       </section>
-
-      <section>
-        <label
-          :for="genre.id"
-          v-for="(genre, index) of genres.items"
-          :key="index"
-          class="flex items-center gap-x-2"
-        >
-          <input
-            :id="genre.id"
-            name="genres[]"
-            type="checkbox"
-            :value="genre.id"
-            v-model="video.genresId"
-            true-value="no"
-            false-value="no"
-            class="form-checkbox"
-          />
-          {{ genre.name }}
-        </label>
-      </section>
-
-      <section>
-        <label
-          :for="castMember.id"
-          v-for="(castMember, index) of castMembers.items"
-          :key="index"
-          class="flex items-center gap-x-2"
-        >
-          <input
-            :id="castMember.id"
-            name="castMembers[]"
-            type="checkbox"
-            :value="castMember.id"
-            v-model="video.castMembersId"
-            true-value="no"
-            false-value="no"
-            class="form-checkbox"
-          />
-          {{ castMember.name }}
-        </label>
-      </section>
-
-      <div class="flex flex-col">
-        <label for="yearLaunched">Year launched </label>
-        <input
-          id="yearLaunched"
-          type="number"
-          v-model="video.yearLaunched"
-          placeholder="Type here"
-          class="form-input"
-        />
-      </div>
-
-      <div class="flex flex-col">
-        <label for="duration">Duration</label>
-        <input
-          id="duration"
-          type="number"
-          v-model="video.duration"
-          placeholder="Type here"
-          class="form-input"
-        />
-      </div>
-
-      <section>
-        <label
-          :for="rating.value"
-          v-for="(rating, index) of ratings"
-          :key="index"
-          class="flex items-center gap-x-2"
-        >
-          <input
-            :id="rating.label"
-            name="rating"
-            type="radio"
-            :value="rating.value"
-            v-model="video.rating"
-            true-value="no"
-            false-value="no"
-          />
-          {{ rating.label }}
-        </label>
-      </section>
-
-      <section>
-        <label for="isOpened" class="flex items-center gap-x-2">
-          <input
-            id="isOpened"
-            name="isOpened"
-            type="checkbox"
-            v-model="video.isOpened"
-            true-value="true"
-            false-value="false"
-            class="form-checkbox"
-          />
-          Featured
-        </label>
-      </section>
-    </form>
+    </section>
 
     <button @click="submit" class="btn btn-outline btn-neutral">Save</button>
   </section>
@@ -220,6 +250,31 @@ const ratings = computed(() => {
   ];
 });
 
+const medias = computed(() => {
+  const prefix = "https://storage.cloud.google.com/codeflix-catalog/";
+  return [
+    {
+      field: "banner",
+      label: "Banner",
+      url: video.value.banner ? prefix + video.value.banner : null,
+    },
+
+    {
+      field: "thumbnail",
+      label: "Thumnbail",
+      url: video.value.thumbnail ? prefix + video.value.thumbnail : null,
+    },
+
+    {
+      field: "thumbnailHalf",
+      label: "Thumnbail half",
+      url: video.value.thumbnailHalf
+        ? prefix + video.value.thumbnailHalf
+        : null,
+    },
+  ];
+});
+
 async function getVideo() {
   const videoFound = await videoGateway.find(videoId);
   video.value = {
@@ -246,6 +301,14 @@ async function getCastMembers() {
   const castMembersResponse = await castMemberGateway.list();
   castMembers.items = castMembersResponse.data;
   castMembers.meta = castMembersResponse.meta;
+}
+
+async function uploadFile(field: string, event: any) {
+  const _file = event.target.files[0];
+  const file = new FormData();
+  file.append(field, _file);
+
+  await videoGateway.upload(videoId, file);
 }
 
 async function submit() {
