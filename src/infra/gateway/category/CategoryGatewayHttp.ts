@@ -1,37 +1,60 @@
+import Category from "../../../domain/Category.entity";
 import HttpClient from "../../http/HttpClient";
-import CategoryGateway, {
-  BodyCreate,
-  BodyUpdate,
-  CollectionResponse,
-  ItemResponse,
-} from "./CategoryGateway";
+import { Pagination } from "../../http/Response";
+import CategoryGateway, { BodyCreate, BodyUpdate } from "./CategoryGateway";
 
 export default class CategoryGatewayHttp implements CategoryGateway {
   constructor(readonly httpClient: HttpClient) {}
 
-  async list(): Promise<CollectionResponse> {
+  async list(): Promise<Pagination<Category>> {
     const response = await this.httpClient.get("/categories");
 
-    return response.data;
+    return {
+      meta: response.meta,
+      data: response.data.map(
+        (responseItem: any) =>
+          new Category(
+            responseItem.name,
+            responseItem.description,
+            responseItem.isActive,
+            responseItem.createdAt,
+            responseItem.id
+          )
+      ),
+    };
   }
 
-  async create(body: BodyCreate): Promise<ItemResponse> {
+  async create(body: BodyCreate): Promise<Category> {
     return this.httpClient.post("/categories", body);
   }
 
-  async find(id: string): Promise<ItemResponse> {
+  async find(id: string): Promise<Category> {
     const response = await this.httpClient.get(`/categories/${id}`);
 
-    return response.data;
+    return new Category(
+      response.name,
+      response.description,
+      response.isActive,
+      response.createdAt,
+      response.id
+    );
   }
 
-  async update(id: string, body: BodyUpdate): Promise<ItemResponse> {
+  async update(id: string, body: BodyUpdate): Promise<Category> {
     const response = await this.httpClient.patch(`/categories/${id}`, body);
 
-    return response.data;
+    return new Category(
+      response.name,
+      response.description,
+      response.isActive,
+      response.createdAt,
+      response.id
+    );
   }
 
   async destroy(id: string): Promise<void> {
-    return await this.httpClient.delete(`/categories/${id}`);
+    await this.httpClient.delete(`/categories/${id}`);
+
+    return;
   }
 }

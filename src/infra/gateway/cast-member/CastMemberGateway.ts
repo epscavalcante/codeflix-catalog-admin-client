@@ -1,21 +1,11 @@
 import CastMember from "../../../domain/CastMember.entity";
-
-export type ItemResponse = CastMember;
-export type CollectionResponse = {
-  data: Array<ItemResponse>;
-  meta: {
-    currentPage: number;
-    lasPage: number;
-    perPage: number;
-    total: number;
-  };
-};
+import { Pagination } from "../../http/Response";
 
 export default interface CastMemberGateway {
-  list(): Promise<CollectionResponse>;
-  create(body: BodyCreate): Promise<ItemResponse>;
-  find(id: string): Promise<ItemResponse>;
-  update(id: string, body: BodyUpdate): Promise<ItemResponse>;
+  list(): Promise<Pagination<CastMember>>;
+  create(body: BodyCreate): Promise<CastMember>;
+  find(id: string): Promise<CastMember>;
+  update(id: string, body: BodyUpdate): Promise<CastMember>;
   destroy(id: string): Promise<void>;
 }
 

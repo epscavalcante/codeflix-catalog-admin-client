@@ -4,25 +4,50 @@ import HttpClient from "./HttpClient";
 export default class AxiosHttpAdapter implements HttpClient {
   private axios: AxiosInstance;
 
-  constructor() {
+  constructor(readonly baseUrl: string) {
+    if (!baseUrl) throw new Error("The baseUrl is required");
     this.axios = axios.create({
-      baseURL: 'http://localhost:3000'
-    })
+      baseURL: baseUrl,
+    });
   }
 
-  get(url: string): Promise<any> {
-    return this.axios.get(url);
+  async get(url: string): Promise<any> {
+    try {
+      const response = await this.axios.get(url);
+
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response.data.message);
+    }
   }
 
-  post(url: string, body: any): Promise<any> {
-    return this.axios.post(url, body);
+  async post(url: string, body: any): Promise<any> {
+    try {
+      const response = await this.axios.post(url, body);
+
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response.data.message);
+    }
   }
 
-  patch(url: string, body: any): Promise<any> {
-    return this.axios.patch(url, body);
+  async patch(url: string, body: any): Promise<any> {
+    try {
+      const response = await this.axios.patch(url, body);
+
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response.data.message);
+    }
   }
 
-  delete(url: string): Promise<any> {
-    return this.axios.delete(url);
+  async delete(url: string): Promise<any> {
+    try {
+      const response = await this.axios.delete(url);
+
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response.data.message);
+    }
   }
 }
