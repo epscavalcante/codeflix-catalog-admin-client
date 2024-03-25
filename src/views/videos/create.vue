@@ -36,8 +36,7 @@
       </div>
 
       <div class="flex flex-col">
-        <label for="description">Description
-        </label>
+        <label for="description">Description</label>
         <textarea
           id="description"
           v-model="video.description"
@@ -108,8 +107,7 @@
       </section>
 
       <div class="flex flex-col">
-        <label for="yearLaunched">Year launched
-        </label>
+        <label for="yearLaunched">Year launched </label>
         <input
           id="yearLaunched"
           type="number"
@@ -120,8 +118,7 @@
       </div>
 
       <div class="flex flex-col">
-        <label for="duration">Duration
-        </label>
+        <label for="duration">Duration </label>
         <input
           id="duration"
           type="number"
@@ -215,7 +212,7 @@ const ratings = computed(() => {
   ];
 });
 
-const video = ref(new Video({}));
+const video = ref({} as Video);
 
 async function getGenres() {
   const genresResponse = await genreGateway.list();
