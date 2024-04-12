@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import HttpClient from "./HttpClient";
 
 export default class AxiosHttpAdapter implements HttpClient {
@@ -21,12 +21,17 @@ export default class AxiosHttpAdapter implements HttpClient {
     }
   }
 
-  async post(url: string, body: any): Promise<any> {
+  async post<R>(
+    url: string,
+    body: any,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
     try {
-      const response = await this.axios.post(url, body);
+      const response = await this.axios.post(url, body, config);
 
       return response.data;
     } catch (error: any) {
+      console.log(error);
       throw new Error(error.response.data.message);
     }
   }

@@ -12,6 +12,8 @@
   "dependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "axios": "^1.6.7",
+    "keycloak-js": "^24.0.2",
+    "pinia": "^2.1.7",
     "vue": "^3.2.47",
     "vue-router": "4"
   },
