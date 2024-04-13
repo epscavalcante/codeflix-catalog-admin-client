@@ -54,7 +54,6 @@
           <button
             type="button"
             class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-            @click="logout"
           >
             <span class="absolute -inset-1.5"></span>
             <span class="sr-only">Logout</span>
@@ -88,21 +87,8 @@
 <script setup lang="ts">
 import { computed, inject, onMounted } from "vue";
 import Config from "../../config/app";
-import AuthGateway from "../../infra/gateway/auth/AuthGateway";
-import { useRouter } from "vue-router";
 
-const router = useRouter();
 const appName = computed(() => Config.appName);
-let authGateway: AuthGateway;
-
-onMounted(async () => {
-  authGateway = inject("authGateway") as AuthGateway;
-});
-
-async function logout() {
-  await authGateway.logout();
-  router.push({ name: 'home'})
-}
 </script>
 
 <style scoped></style>

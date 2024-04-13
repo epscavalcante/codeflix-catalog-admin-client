@@ -93,7 +93,7 @@ async function login() {
       password: password.value,
     });
 
-    useAuth().setToken(response.access_token);
+    // useAuth().setToken(response.access_token);
     router.push({ name: "home" });
   } catch (error) {
     console.error(error);

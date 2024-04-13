@@ -4,9 +4,7 @@ import {
   createWebHistory,
   NavigationGuardNext,
   RouteLocationNormalized,
-  RouteRecordNormalized,
 } from "vue-router";
-import { useAuth } from "../composables/useAuth";
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -87,25 +85,9 @@ export const router = createRouter({
         },
       ],
     },
-    {
-      path: "/auth",
-      component: () => import("../views/layouts/auth.vue"),
-      children: [
-        {
-          path: "",
-          redirect: { name: "auth.login" },
-        },
-
-        {
-          path: "login",
-          name: "auth.login",
-          component: () => import("../views/auth/Login.vue"),
-        },
-      ],
-    },
   ],
 });
-
+/*
 router.beforeEach(
   (
     to: RouteLocationNormalized,
@@ -113,13 +95,9 @@ router.beforeEach(
     next: NavigationGuardNext
   ) => {
     if (to.meta?.auth) {
-      console.log(useAuth().isAuthenticated);
-
       if (useAuth().isAuthenticated) {
-        console.log("auth true");
         next();
       } else {
-        console.log("auth false");
         next({ name: "auth.login" });
       }
     } else {
@@ -128,3 +106,4 @@ router.beforeEach(
     }
   }
 );
+*/

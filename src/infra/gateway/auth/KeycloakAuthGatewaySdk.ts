@@ -14,6 +14,7 @@ export default class KeycloakAuthGatewaySdk implements AuthGateway {
     this.serverUrl = import.meta.env.VITE_KC_SERVER_URL;
 
     if (!this.keycloak) {
+      console.log("init kc");
       this.keycloak = new Keycloak({
         url: this.serverUrl,
         realm: this.realm,
@@ -21,18 +22,23 @@ export default class KeycloakAuthGatewaySdk implements AuthGateway {
       });
 
       this.init();
-    }
+    } else console.log("KC ja criado");
   }
 
   async login(): Promise<LoginResponse> {
+    const { authenticated } = this.keycloak!;
+    console.log(this.keycloak, authenticated);
+    console.log(this.keycloak?.authenticated);
     if (!this.keycloak!.authenticated) {
-      await this.keycloak?.login({
+      console.log("red login");
+
+      /*await this.keycloak?.login({
         // redirectUri: import.meta.env.VITE_APP_BASE_URL,
-      });
+        // redirectUri: 'http://localhost:5147'
+      });*/
     }
     console.log("KC logado", this.keycloak);
-    useAuth().setToken(this.keycloak!.token as string);
-    console.log(this.keycloak);
+    // useAuth().setToken(this.keycloak!.token as string);
 
     return {
       access_token: this.keycloak!.token as string,

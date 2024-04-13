@@ -11,7 +11,9 @@ export const useAuth = defineStore("auth", () => {
   }
 
   const isAuthenticated = computed(() => {
-    return !!token.value;
+    const token = localStorage.getItem('token');
+
+    return token && token === 'undefined';
   });
 
   return {

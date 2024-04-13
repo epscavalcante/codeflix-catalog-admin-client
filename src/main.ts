@@ -1,15 +1,15 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
-import CategoryGatewayHttp from './infra/gateway/category/CategoryGatewayHttp'
-import AxiosHttpAdapter from './infra/http/AxiosHttpAdapter'
-import CastMemberGatewayHttp from './infra/gateway/cast-member/CastMemberGatewayHttp'
-import GenreGatewayHttp from './infra/gateway/genre/GenreGatewayHttp'
-import VideoGatewayHttp from './infra/gateway/video/VideoGatewayHttp'
-import Config from './config/app'
-import { router } from './config/router'
-import AuthGatewayFactory from './infra/gateway/auth/AuthGatewayFactory'
-import { pinia } from './config/pinia'
+import { createApp } from "vue";
+import "./style.css";
+import App from "./App.vue";
+import CategoryGatewayHttp from "./infra/gateway/category/CategoryGatewayHttp";
+import AxiosHttpAdapter from "./infra/http/AxiosHttpAdapter";
+import CastMemberGatewayHttp from "./infra/gateway/cast-member/CastMemberGatewayHttp";
+import GenreGatewayHttp from "./infra/gateway/genre/GenreGatewayHttp";
+import VideoGatewayHttp from "./infra/gateway/video/VideoGatewayHttp";
+import Config from "./config/app";
+import { router } from "./config/router";
+import { pinia } from "./config/pinia";
+import Keycloak, { KeycloakInitOptions, KeycloakConfig } from "keycloak-js";
 
 const app = createApp(App);
 const httpClient = new AxiosHttpAdapter(Config.apiUrl);
@@ -23,10 +23,45 @@ app.provide("genreGateway", genreGateway);
 const videoGateway = new VideoGatewayHttp(httpClient);
 app.provide("videoGateway", videoGateway);
 
-const authGateway = AuthGatewayFactory.create('sdk');
-app.provide("authGateway", authGateway);
-
 app.use(pinia);
 app.use(router);
 
-app.mount('#app');
+let config: KeycloakConfig = {
+  url: import.meta.env.VITE_KC_SERVER_URL,
+  realm:  import.meta.env.VITE_KC_REALM,
+  clientId: import.meta.env.VITE_KC_CLIENT_ID,
+};
+
+let keycloak = new Keycloak(config);
+
+let initOptions: KeycloakInitOptions = {
+  onLoad: "login-required",
+  // redirectUri: "http://localhost:5147/",
+  enableLogging: true,
+  checkLoginIframe: false,
+};
+
+keycloak
+  .init(initOptions)
+  .then(() => {
+    localStorage.setItem("keycloak", JSON.stringify(keycloak));
+
+    app.mount("#app");
+
+    //Token Refresh
+    setInterval(() => {
+      keycloak
+        .updateToken(70)
+        .then((refreshed) => {
+          if (refreshed) {
+            console.log("Token refreshed");
+          } else {
+            console.warn("Token not refreshed");
+          }
+        })
+        .catch(() => {
+          console.error("Failed to refresh token");
+        });
+    }, 6000);
+  })
+  .catch((err) => console.error("Autentication failed", err));
