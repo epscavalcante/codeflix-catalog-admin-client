@@ -1,13 +1,10 @@
 import {
   createRouter,
-  createWebHashHistory,
   createWebHistory,
-  NavigationGuardNext,
-  RouteLocationNormalized,
 } from "vue-router";
 
 export const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.VITE_BASE_URL),
   linkActiveClass: "bg-gray-900 text-white",
   linkExactActiveClass: "bg-gray-900 text-white",
   routes: [

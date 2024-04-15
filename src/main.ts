@@ -28,7 +28,7 @@ app.use(router);
 
 let config: KeycloakConfig = {
   url: import.meta.env.VITE_KC_SERVER_URL,
-  realm:  import.meta.env.VITE_KC_REALM,
+  realm: import.meta.env.VITE_KC_REALM,
   clientId: import.meta.env.VITE_KC_CLIENT_ID,
 };
 
@@ -45,9 +45,7 @@ keycloak
   .init(initOptions)
   .then(() => {
     localStorage.setItem("keycloak", JSON.stringify(keycloak));
-
     app.mount("#app");
-
     //Token Refresh
     setInterval(() => {
       keycloak
