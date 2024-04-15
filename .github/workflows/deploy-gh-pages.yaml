@@ -21,8 +21,12 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  BASE_URL: ${{ secrets.BASE_URL }}
   VITE_APP_NAME: ${{ secrets.VITE_APP_NAME }}
   VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+  VITE_KC_REALM: ${{ secrets.VITE_KC_REALM }}
+  VITE_KC_CLIENT_ID: ${{ secrets.VITE_KC_CLIENT_ID }}
+  VITE_KC_SERVER_URL: ${{ secrets.VITE_KC_SERVER_URL }}
 
 jobs:
   # Single deploy job since we're just deploying
