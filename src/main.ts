@@ -11,21 +11,6 @@ import { router } from "./config/router";
 import { pinia } from "./config/pinia";
 import Keycloak, { KeycloakInitOptions, KeycloakConfig } from "keycloak-js";
 
-const app = createApp(App);
-const httpClient = new AxiosHttpAdapter(Config.apiUrl);
-
-const categoryGateway = new CategoryGatewayHttp(httpClient);
-app.provide("categoryGateway", categoryGateway);
-const castMemberGateway = new CastMemberGatewayHttp(httpClient);
-app.provide("castMemberGateway", castMemberGateway);
-const genreGateway = new GenreGatewayHttp(httpClient);
-app.provide("genreGateway", genreGateway);
-const videoGateway = new VideoGatewayHttp(httpClient);
-app.provide("videoGateway", videoGateway);
-
-app.use(pinia);
-app.use(router);
-
 let config: KeycloakConfig = {
   url: import.meta.env.VITE_KC_SERVER_URL,
   realm: import.meta.env.VITE_KC_REALM,
@@ -37,14 +22,34 @@ let keycloak = new Keycloak(config);
 let initOptions: KeycloakInitOptions = {
   onLoad: "login-required",
   // redirectUri: "http://localhost:5147/",
-  enableLogging: true,
-  checkLoginIframe: false,
+  //enableLogging: true,
+  // checkLoginIframe: false,
 };
 
 keycloak
   .init(initOptions)
   .then(() => {
     localStorage.setItem("keycloak", JSON.stringify(keycloak));
+    const app = createApp(App);
+    const httpClient = new AxiosHttpAdapter({
+      baseURL: Config.apiUrl,
+      headers: {
+        Authorization: `${keycloak.tokenParsed?.typ} ${keycloak.token}`,
+      },
+    });
+
+    const categoryGateway = new CategoryGatewayHttp(httpClient);
+    app.provide("categoryGateway", categoryGateway);
+    const castMemberGateway = new CastMemberGatewayHttp(httpClient);
+    app.provide("castMemberGateway", castMemberGateway);
+    const genreGateway = new GenreGatewayHttp(httpClient);
+    app.provide("genreGateway", genreGateway);
+    const videoGateway = new VideoGatewayHttp(httpClient);
+    app.provide("videoGateway", videoGateway);
+
+    app.use(pinia);
+    app.use(router);
+
     app.mount("#app");
     //Token Refresh
     setInterval(() => {

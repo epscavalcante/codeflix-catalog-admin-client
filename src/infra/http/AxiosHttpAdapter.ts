@@ -1,14 +1,12 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, CreateAxiosDefaults } from "axios";
 import HttpClient from "./HttpClient";
 
 export default class AxiosHttpAdapter implements HttpClient {
   private axios: AxiosInstance;
 
-  constructor(readonly baseUrl: string) {
-    if (!baseUrl) throw new Error("The baseUrl is required");
-    this.axios = axios.create({
-      baseURL: baseUrl,
-    });
+  constructor(readonly config?: CreateAxiosDefaults) {
+    if (!config?.baseURL) throw new Error("The baseUrl is required");
+    this.axios = axios.create(config);
   }
 
   async get(url: string): Promise<any> {

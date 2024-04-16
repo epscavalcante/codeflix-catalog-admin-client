@@ -141,8 +141,6 @@
             type="radio"
             :value="rating.value"
             v-model="video.rating"
-            true-value="no"
-            false-value="no"
             class="form-radio"
           />
           {{ rating.label }}
@@ -212,7 +210,7 @@ const ratings = computed(() => {
   ];
 });
 
-const video = ref({} as Video);
+const video = ref<Video>({} as Video);
 
 async function getGenres() {
   const genresResponse = await genreGateway.list();
@@ -262,6 +260,11 @@ onMounted(async () => {
   castMemberGateway = inject("castMemberGateway") as CastMemberGateway;
 
   await Promise.all([getGenres(), getCategories(), getCastMembers()]);
+  video.value = {
+    genresId: [],
+    categoriesId: [],
+    castMembersId: [],
+  } as any
 });
 </script>
 
