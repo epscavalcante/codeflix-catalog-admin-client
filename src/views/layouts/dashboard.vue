@@ -23,7 +23,7 @@
             <div class="ml-10 flex items-baseline space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
               <RouterLink
-                to="/"
+                :to="{ name: 'dashboard' }"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                 >Dashboard</RouterLink
               >
@@ -54,6 +54,7 @@
           <button
             type="button"
             class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+            @click="logout"
           >
             <span class="absolute -inset-1.5"></span>
             <span class="sr-only">Logout</span>
@@ -85,10 +86,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted } from "vue";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
 import Config from "../../config/app";
+import { useKeycloak } from "@josempgon/vue-keycloak";
 
 const appName = computed(() => Config.appName);
+
+function logout() {
+  useKeycloak().keycloak.value.logout();
+  useRouter().push({ name: "home" });
+}
 </script>
 
 <style scoped></style>

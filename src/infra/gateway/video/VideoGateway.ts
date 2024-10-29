@@ -2,7 +2,7 @@ import Video from "../../../domain/Video.entity";
 import { Pagination } from "../../http/Response";
 
 export default interface VideoGateway {
-  list(): Promise<Pagination<Video>>;
+  list(options?: any): Promise<Pagination<Video>>;
   create(body: BodyCreate): Promise<Video>;
   find(id: string): Promise<Video>;
   update(id: string, body: BodyUpdate): Promise<Video>;

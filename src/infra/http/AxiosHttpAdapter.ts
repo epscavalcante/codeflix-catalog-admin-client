@@ -9,9 +9,9 @@ export default class AxiosHttpAdapter implements HttpClient {
     this.axios = axios.create(config);
   }
 
-  async get(url: string): Promise<any> {
+  async get(url: string, options?: any): Promise<any> {
     try {
-      const response = await this.axios.get(url);
+      const response = await this.axios.get(url, options);
 
       return response.data;
     } catch (error: any) {

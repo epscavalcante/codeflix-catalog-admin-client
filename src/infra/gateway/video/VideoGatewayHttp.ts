@@ -6,8 +6,8 @@ import VideoGateway, { BodyCreate, BodyUpdate } from "./VideoGateway";
 export default class VideoGatewayHttp implements VideoGateway {
   constructor(readonly httpClient: HttpClient) {}
 
-  async list(): Promise<Pagination<Video>> {
-    const response = await this.httpClient.get("/videos");
+  async list(options?: any): Promise<Pagination<Video>> {
+    const response = await this.httpClient.get("/videos", options);
 
     return {
       meta: response.meta,

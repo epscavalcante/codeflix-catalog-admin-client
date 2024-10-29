@@ -1,4 +1,4 @@
-FROM node:hydrogen-alpine3.16
+FROM node:iron-alpine3.20
 
 RUN apk add bash
 

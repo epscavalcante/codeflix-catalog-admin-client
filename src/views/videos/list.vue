@@ -92,6 +92,7 @@
 import { inject, onMounted, reactive, ref } from "vue";
 import Video from "../../domain/Video.entity";
 import VideoGateway from "../../infra/gateway/video/VideoGateway";
+import { getToken } from "@josempgon/vue-keycloak";
 
 const data = reactive({
   items: [] as Array<Video>,
@@ -105,7 +106,10 @@ onMounted(async () => {
 });
 
 async function getItems() {
-  const videoResponse = await videoGateway.list();
+  const token = await getToken();
+  const videoResponse = await videoGateway.list({ headers: {
+    'Authorization' : `Bearer ${token}`
+  }});
   data.items = videoResponse.data;
   data.meta = videoResponse.meta;
 }
