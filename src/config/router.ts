@@ -1,11 +1,10 @@
 import {
   createRouter,
+  createWebHashHistory,
   createWebHistory,
   NavigationGuardNext,
   RouteLocationNormalized,
 } from "vue-router";
-
-import { useKeycloak } from "@josempgon/vue-keycloak";
 
 const routes = [
   {
@@ -85,7 +84,7 @@ const routes = [
 ];
 
 export const router = createRouter({
-  history: createWebHistory(import.meta.env.VITE_BASE_URL),
+  history: createWebHashHistory(import.meta.env.VITE_BASE_URL),
   linkActiveClass: "bg-gray-900 text-white",
   linkExactActiveClass: "bg-gray-900 text-white",
   routes,
